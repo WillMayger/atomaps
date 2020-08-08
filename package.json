@@ -1,11 +1,11 @@
 {
-  "name": "react-maps",
+  "name": "atomaps",
   "version": "1.0.0",
   "description": "Google maps - built for react",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WillMayger/react-maps.git"
+    "url": "git+https://github.com/WillMayger/atomaps.git"
   },
   "keywords": [
     "react",
@@ -13,14 +13,14 @@
     "maps",
     "react",
     "maps",
-    "react-maps"
+    "atomaps"
   ],
   "author": "Will Mayger",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/WillMayger/react-maps/issues"
+    "url": "https://github.com/WillMayger/atomaps/issues"
   },
-  "homepage": "https://github.com/WillMayger/react-maps#readme",
+  "homepage": "https://github.com/WillMayger/atomaps#readme",
   "scripts": {
     "start": "node dist/index.js",
     "build": "rollup -c",
