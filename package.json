@@ -2,10 +2,7 @@
   "name": "react-maps",
   "version": "1.0.0",
   "description": "Google maps - built for react",
-  "main": "index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/WillMayger/react-maps.git"
@@ -23,5 +20,21 @@
   "bugs": {
     "url": "https://github.com/WillMayger/react-maps/issues"
   },
-  "homepage": "https://github.com/WillMayger/react-maps#readme"
+  "homepage": "https://github.com/WillMayger/react-maps#readme",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "node test/test.js",
+    "pretest": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^5.0.2",
+    "rollup": "^2.23.1",
+    "tslib": "^2.0.1",
+    "typescript": "^3.9.7"
+  }
 }
