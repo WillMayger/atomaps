@@ -26,15 +26,26 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "node test/test.js",
-    "pretest": "npm run build"
+    "pretest": "npm run build",
+    "storybook": "start-storybook -p 6006 --no-dll",
+    "build-storybook": "build-storybook --no-dll"
   },
   "files": [
     "dist"
   ],
   "devDependencies": {
+    "@babel/core": "^7.12.3",
     "@rollup/plugin-typescript": "^5.0.2",
+    "@storybook/addon-actions": "^6.0.28",
+    "@storybook/addon-essentials": "^6.0.28",
+    "@storybook/addon-links": "^6.0.28",
+    "@storybook/react": "^6.0.28",
+    "babel-loader": "^8.1.0",
+    "react-is": "^17.0.1",
     "rollup": "^2.23.1",
+    "storybook-css-modules-preset": "^1.0.2",
     "tslib": "^2.0.1",
     "typescript": "^3.9.7"
-  }
+  },
+  "dependencies": {}
 }
