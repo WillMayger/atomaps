@@ -1,10 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { doesWindowExist } from '../helpers'
 import {
   importGoogleMaps,
   InitAtomap,
   initAtomap,
-  InitGoogleMapOptions,
+  AtomapBounds,
 } from './initializeMap'
 import styles from './Atomap.module.css'
 import { useDidMount, useParentBounds } from '../hooks'
@@ -15,10 +15,11 @@ declare global {
   }
 }
 
-export interface AtomapProps extends InitGoogleMapOptions {
+export interface AtomapProps extends AtomapBounds {
   key?: string
-  fallbackHeight?: number
-  fallbackWidth?: number
+  containerHeight?: number
+  containerWidth?: number
+  setBounds?: (bounds: AtomapBounds) => void
 }
 
 const initialCenter = {
@@ -29,11 +30,12 @@ const initialCenter = {
 const initialZoom = 6.7
 
 export default function Atomap({
-  fallbackHeight = 500,
-  fallbackWidth = 500,
+  containerHeight = 500,
+  containerWidth = 500,
   key,
   center = initialCenter,
   zoom = initialZoom,
+  setBounds = () => {},
 }: AtomapProps) {
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
@@ -41,8 +43,22 @@ export default function Atomap({
 
   const initializeMap = () => {
     if (doesWindowExist()) {
-      const callback = (nextMap) => {
-        mapRef.current = nextMap
+      const callback = (gMap) => {
+        mapRef.current = gMap
+        gMap.addListener('bounds_changed', () => {
+          const center = gMap.getCenter()
+          const lat = center.lat()
+          const lng = center.lng()
+          const zoom = gMap.getZoom()
+
+          setBounds({
+            center: {
+              lat,
+              lng,
+            },
+            zoom,
+          })
+        })
       }
 
       window.initAtomap = initAtomap({
@@ -65,11 +81,35 @@ export default function Atomap({
     initializeMap()
   })
 
+  const { lat, lng } = center
+
+  useEffect(() => {
+    if (!mapRef.current) return
+    const currentZoom = mapRef.current.getZoom()
+
+    if (zoom !== currentZoom) {
+      mapRef.current.setZoom(zoom)
+    }
+  }, [zoom])
+
+  useEffect(() => {
+    if (!mapRef.current) return
+    const center = mapRef.current.getCenter()
+    const currentLat = center.lat()
+    const currentLng = center.lng()
+    if (currentLat !== lat || currentLng !== lng) {
+      mapRef.current.setCenter({
+        lat,
+        lng,
+      })
+    }
+  }, [lat, lng])
+
   return (
     <div
       className={styles.atomap}
       ref={mapContainerRef}
-      style={size || { height: fallbackHeight, width: fallbackWidth }}
+      style={size || { height: containerHeight, width: containerWidth }}
     />
   )
 }

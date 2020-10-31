@@ -21,13 +21,15 @@ export const importGoogleMaps = (options?: ScriptOptions) => {
   document.head.appendChild(script)
 }
 
-export interface InitGoogleMapOptions {
+export interface AtomapBounds {
   zoom?: number
   center?: {
     lat?: number
     lng?: number
   }
 }
+
+export interface InitGoogleMapOptions extends AtomapBounds {}
 
 export interface InitAtomap {
   callback: (map: google.maps.Map) => void
