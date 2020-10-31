@@ -1,9 +1,8 @@
-import React from 'react';
+import React from 'react'
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
-import { Story, Meta } from '@storybook/react/types-6-0';
+import { Story, Meta } from '@storybook/react/types-6-0'
 
-import Atomap, { AtomapProps } from './Atomap';
-
+import Atomap, { AtomapProps } from './Atomap'
 
 export default {
   title: 'Atomap',
@@ -13,6 +12,4 @@ export default {
 const Template: Story<AtomapProps> = (args) => <Atomap {...args} />
 
 export const Test = Template.bind({})
-Test.args = {
-  test: 'This will be a map',
-};
+Test.args = {}

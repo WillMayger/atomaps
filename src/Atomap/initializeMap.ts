@@ -1,4 +1,4 @@
-import { doesWindowExist } from '../helpers'
+import { doesWindowExist, createParam } from '../helpers'
 
 export interface ScriptOptions extends Record<string, string> {
   key?: string
@@ -10,18 +10,29 @@ export const importGoogleMaps = (options?: ScriptOptions) => {
     return
   }
 
+  const search = Object.keys(options).reduce((acc, key) => {
+    const nextParam = createParam(key, options[key])
+    return acc + nextParam
+  }, '')
+
   const script = document.createElement('script')
-  script.src = `https://maps.googleapis.com/maps/api/js?${new URLSearchParams(
-    options,
-  ).toString()}`
+  script.src = `https://maps.googleapis.com/maps/api/js?${search}`
   script.defer = true
   document.head.appendChild(script)
+}
+
+export interface InitGoogleMapOptions {
+  zoom?: number
+  center?: {
+    lat?: number
+    lng?: number
+  }
 }
 
 export interface InitAtomap {
   callback: (map: google.maps.Map) => void
   ref: HTMLElement
-  options?: any
+  options?: InitGoogleMapOptions
 }
 
 export function initAtomap({ callback, ref, options }: InitAtomap) {
@@ -30,10 +41,7 @@ export function initAtomap({ callback, ref, options }: InitAtomap) {
   }
 
   return () => {
-    const map = new google.maps.Map(ref, {
-      center: { lat: -34.397, lng: 150.644 },
-      zoom: 8,
-    })
+    const map = new google.maps.Map(ref, options)
 
     callback(map)
   }
